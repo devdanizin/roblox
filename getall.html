@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Consultar Todos Logins Roblox (GET ALL)</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 12px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        pre {
+            background-color: #f3f3f3;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Consultar Todos Logins Roblox (GET ALL)</h2>
+
+    <button id="btn-get-all">Buscar todos</button>
+
+    <h3>Resposta da API:</h3>
+    <pre id="resultado">Clique no botão para buscar todos os dados...</pre>
+
+    <script>
+        $('#btn-get-all').on('click', function(event) {
+            event.preventDefault();
+
+            $('#resultado').text('Carregando...');
+
+            $.ajax({
+                url: "https://robloxapi-gq2e.onrender.com/api/v1",
+                method: "GET",
+                success: function(data) {
+                    console.log("Resposta da API:", data);
+                    $('#resultado').text(JSON.stringify(data, null, 4));
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("Erro na requisição:", textStatus, errorThrown);
+                    $('#resultado').text('Erro ao consultar a API.');
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
